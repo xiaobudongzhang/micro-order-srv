@@ -1,1 +1,1 @@
-module micro-order-srv
+module github.com/xiaobudongzhang/micro-order-srv
