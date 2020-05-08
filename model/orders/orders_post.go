@@ -1,6 +1,8 @@
 package orders
 
 import (
+	"context"
+
 	"github.com/micro/go-micro/v2/util/log"
 	"github.com/xiaobudongzhang/micro-basic/common"
 	"github.com/xiaobudongzhang/micro-basic/db"
@@ -8,7 +10,7 @@ import (
 )
 
 func (s *service) New(bookId int64, userId int64) (orderId int64, err error) {
-	rsp, err := invClient.Sell(content.TODO(), &invS.Request{
+	rsp, err := invClient.Sell(context.TODO(), &invS.Request{
 		BookId: bookId, UserId: userId,
 	})
 

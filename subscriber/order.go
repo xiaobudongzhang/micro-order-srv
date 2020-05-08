@@ -3,10 +3,11 @@ package subscriber
 import (
 	"context"
 
-	log "github.com/micro/go-micro/v2/logger"
 	"github.com/xiaobudongzhang/micro-order-srv/model/orders"
 
-	payS "github.com/xiaobudongzhang/micro-order-srv/proto/payment"
+	"github.com/micro/go-micro/v2/util/log"
+
+	payS "github.com/xiaobudongzhang/micro-payment-srv/proto/payment"
 )
 
 var (

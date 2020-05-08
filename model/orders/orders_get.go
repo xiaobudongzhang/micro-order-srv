@@ -12,7 +12,7 @@ func (s *service) GetOrder(orderId int64) (order *proto.Order, err error) {
 	o := db.GetDB()
 
 	err = o.QueryRow("select id, user_id,book_id,inv_his_id,state from orders where id = ?", orderId).Scan(
-		&order.Id, &order.UserId, &order.BookId, &order.InvHistoryId, &order.State
+		&order.Id, &order.UserId, &order.BookId, &order.InvHistoryId, &order.State,
 	)
 
 	if err != nil {

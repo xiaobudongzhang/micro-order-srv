@@ -5,11 +5,11 @@ import (
 
 	"github.com/micro/go-micro/v2/util/log"
 	"github.com/xiaobudongzhang/micro-order-srv/model/orders"
-	"google.golang.org/grpc/examples/features/proto"
+	proto "github.com/xiaobudongzhang/micro-order-srv/proto/order"
 )
 
 var (
-	orderService orders.Service
+	ordersService orders.Service
 )
 
 type Orders struct {
@@ -20,7 +20,7 @@ func Init() {
 }
 
 func (e *Orders) New(ctx context.Context, req *proto.Request, rsp *proto.Response) (err error) {
-	orderId, err := orderService.New(req.BookId, req.UserId)
+	orderId, err := ordersService.New(req.BookId, req.UserId)
 
 	if err != nil {
 		rsp.Success = false
@@ -42,7 +42,7 @@ func (e *Orders) New(ctx context.Context, req *proto.Request, rsp *proto.Respons
 func (e *Orders) GetOrder(ctx context.Context, req *proto.Request, rsp *proto.Response) (err error) {
 	log.Logf("[getorder] 收到获取订单请求 %d", req.OrderId)
 
-	rsp.Order, err = orderService.GetOrder(req.OrderId)
+	rsp.Order, err = ordersService.GetOrder(req.OrderId)
 
 	if err != nil {
 		rsp.Success = false
