@@ -3,46 +3,55 @@ package handler
 import (
 	"context"
 
-	log "github.com/micro/go-micro/v2/logger"
-
-	order "micro-order-srv/proto/order"
+	"github.com/micro/go-micro/v2/util/log"
+	"github.com/xiaobudongzhang/micro-order-srv/model/orders"
+	"google.golang.org/grpc/examples/features/proto"
 )
 
-type Order struct{}
+var (
+	orderService orders.Service
+)
 
-// Call is a single request handler called via client.Call or the generated client code
-func (e *Order) Call(ctx context.Context, req *order.Request, rsp *order.Response) error {
-	log.Info("Received Order.Call request")
-	rsp.Msg = "Hello " + req.Name
-	return nil
+type Orders struct {
 }
 
-// Stream is a server side stream handler called via client.Stream or the generated client code
-func (e *Order) Stream(ctx context.Context, req *order.StreamingRequest, stream order.Order_StreamStream) error {
-	log.Infof("Received Order.Stream request with count: %d", req.Count)
-
-	for i := 0; i < int(req.Count); i++ {
-		log.Infof("Responding: %d", i)
-		if err := stream.Send(&order.StreamingResponse{
-			Count: int64(i),
-		}); err != nil {
-			return err
-		}
-	}
-
-	return nil
+func Init() {
+	ordersService, _ = orders.GetService()
 }
 
-// PingPong is a bidirectional stream handler called via client.Stream or the generated client code
-func (e *Order) PingPong(ctx context.Context, stream order.Order_PingPongStream) error {
-	for {
-		req, err := stream.Recv()
-		if err != nil {
-			return err
+func (e *Orders) New(ctx context.Context, req *proto.Request, rsp *proto.Response) (err error) {
+	orderId, err := orderService.New(req.BookId, req.UserId)
+
+	if err != nil {
+		rsp.Success = false
+		rsp.Error = &proto.Error{
+			Detail: err.Error(),
 		}
-		log.Infof("Got ping %v", req.Stroke)
-		if err := stream.Send(&order.Pong{Stroke: req.Stroke}); err != nil {
-			return err
-		}
+
+		return
 	}
+
+	rsp.Order = &proto.Order{
+		Id: orderId,
+	}
+
+	return
+}
+
+//get order
+func (e *Orders) GetOrder(ctx context.Context, req *proto.Request, rsp *proto.Response) (err error) {
+	log.Logf("[getorder] 收到获取订单请求 %d", req.OrderId)
+
+	rsp.Order, err = orderService.GetOrder(req.OrderId)
+
+	if err != nil {
+		rsp.Success = false
+		rsp.Error = &proto.Error{
+			Detail: err.Error(),
+		}
+		return
+	}
+
+	rsp.Success = true
+	return
 }
