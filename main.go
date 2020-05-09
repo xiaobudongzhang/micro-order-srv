@@ -14,8 +14,8 @@ import (
 	"github.com/xiaobudongzhang/micro-basic/basic"
 	"github.com/xiaobudongzhang/micro-basic/common"
 	"github.com/xiaobudongzhang/micro-basic/config"
+	"github.com/xiaobudongzhang/micro-order-srv/model"
 	proto "github.com/xiaobudongzhang/micro-order-srv/proto/order"
-	"github.com/xiaobudongzhang/micro-payment-srv/model"
 )
 
 func main() {

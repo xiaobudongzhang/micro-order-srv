@@ -11,6 +11,7 @@ replace github.com/xiaobudongzhang/micro-payment-srv => /data/ndemo/micro-paymen
 replace github.com/xiaobudongzhang/micro-order-srv => /data/ndemo/micro-order-srv
 
 require (
+	github.com/go-log/log v0.2.0
 	github.com/golang/protobuf v1.4.1
 	github.com/micro-in-cn/tutorials/microservice-in-micro v0.0.0-20200430044506-2451e30bf530
 	github.com/micro/go-micro/v2 v2.6.0

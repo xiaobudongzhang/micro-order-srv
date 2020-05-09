@@ -19,7 +19,7 @@ type service struct {
 }
 
 type Service interface {
-	New(bookId, userId int64) (orderId int64, err error)
+	New(bookId int64, userId int64) (orderId int64, err error)
 
 	GetOrder(orderId int64) (order *proto.Order, err error)
 
@@ -27,6 +27,7 @@ type Service interface {
 }
 
 func GetService() (Service, error) {
+
 	if s == nil {
 		return nil, fmt.Errorf("get service 未初始化")
 	}

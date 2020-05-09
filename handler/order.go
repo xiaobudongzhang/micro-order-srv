@@ -20,6 +20,7 @@ func Init() {
 }
 
 func (e *Orders) New(ctx context.Context, req *proto.Request, rsp *proto.Response) (err error) {
+
 	orderId, err := ordersService.New(req.BookId, req.UserId)
 
 	if err != nil {
