@@ -5,8 +5,8 @@ import (
 
 	"github.com/micro/go-micro/v2/util/log"
 	"github.com/xiaobudongzhang/micro-basic/common"
-	"github.com/xiaobudongzhang/micro-basic/db"
 	invS "github.com/xiaobudongzhang/micro-inventory-srv/proto/inventory"
+	"github.com/xiaobudongzhang/micro-plugins/db"
 )
 
 func (s *service) New(bookId int64, userId int64) (orderId int64, err error) {

@@ -10,6 +10,8 @@ replace github.com/xiaobudongzhang/micro-payment-srv => /data/ndemo/micro-paymen
 
 replace github.com/xiaobudongzhang/micro-order-srv => /data/ndemo/micro-order-srv
 
+replace github.com/xiaobudongzhang/micro-plugins => /data/ndemo/micro-plugins
+
 require (
 	github.com/go-log/log v0.2.0
 	github.com/golang/protobuf v1.4.1
@@ -18,6 +20,7 @@ require (
 	github.com/xiaobudongzhang/micro-basic v1.1.5
 	github.com/xiaobudongzhang/micro-inventory-srv v1.0.0
 	github.com/xiaobudongzhang/micro-payment-srv v0.0.0-00010101000000-000000000000
+	github.com/xiaobudongzhang/micro-plugins v0.0.0-00010101000000-000000000000
 	google.golang.org/grpc v1.26.0
 	google.golang.org/protobuf v1.22.0
 )

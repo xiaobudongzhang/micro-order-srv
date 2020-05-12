@@ -2,8 +2,8 @@ package orders
 
 import (
 	"github.com/micro/go-micro/v2/util/log"
-	"github.com/xiaobudongzhang/micro-basic/db"
 	proto "github.com/xiaobudongzhang/micro-order-srv/proto/order"
+	"github.com/xiaobudongzhang/micro-plugins/db"
 )
 
 func (s *service) GetOrder(orderId int64) (order *proto.Order, err error) {
