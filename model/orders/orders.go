@@ -19,7 +19,7 @@ type service struct {
 }
 
 type Service interface {
-	New(bookId int64, userId int64) (orderId int64, err error)
+	New(bookId int64, userId int64, hisId int64) (orderId int64, err error)
 
 	GetOrder(orderId int64) (order *proto.Order, err error)
 

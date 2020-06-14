@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/opentracing/opentracing-go"
+	tracer "github.com/xiaobudongzhang/micro-plugins/tracer/myjaeger"
 
 	"github.com/xiaobudongzhang/micro-order-srv/handler"
 	"github.com/xiaobudongzhang/micro-order-srv/subscriber"
@@ -17,10 +19,12 @@ import (
 	"github.com/xiaobudongzhang/micro-basic/config"
 	"github.com/xiaobudongzhang/micro-order-srv/model"
 	proto "github.com/xiaobudongzhang/micro-order-srv/proto/order"
+
+	openTrace "github.com/micro/go-plugins/wrapper/trace/opentracing/v2"
 )
 
 var (
-	appName = "order_service"
+	appName = "orders_service"
 	cfg     = &appCfg{}
 )
 
@@ -30,13 +34,21 @@ type appCfg struct {
 
 func main() {
 	initCfg()
-
 	micReg := etcd.NewRegistry(registryOptions)
+
+	t, io, err1 := tracer.NewTracer(cfg.Name, "")
+	if err1 != nil {
+		log.Fatal(err1)
+	}
+	defer io.Close()
+
+	opentracing.SetGlobalTracer(t)
 	// New Service
 	service := micro.NewService(
 		micro.Name("mu.micro.book.service.order"),
 		micro.Registry(micReg),
 		micro.Version("latest"),
+		micro.WrapHandler(openTrace.NewHandlerWrapper(opentracing.GlobalTracer())),
 	)
 
 	// Initialise service

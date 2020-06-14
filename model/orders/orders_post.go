@@ -1,28 +1,17 @@
 package orders
 
 import (
-	"context"
-
 	"github.com/micro/go-micro/v2/util/log"
 	"github.com/xiaobudongzhang/micro-basic/common"
-	invS "github.com/xiaobudongzhang/micro-inventory-srv/proto/inventory"
 	"github.com/xiaobudongzhang/micro-plugins/db"
 )
 
-func (s *service) New(bookId int64, userId int64) (orderId int64, err error) {
-	rsp, err := invClient.Sell(context.TODO(), &invS.Request{
-		BookId: bookId, UserId: userId,
-	})
-
-	if err != nil {
-		log.Logf("sell 调用库存服务失败：%s", err.Error())
-		return
-	}
+func (s *service) New(bookId int64, userId int64, hisId int64) (orderId int64, err error) {
 
 	o := db.GetDB()
 	insertSQL := `insert orders (user_id, book_id,inv_his_id,state) values (?,?,?,?)`
 
-	r, err := o.Exec(insertSQL, userId, bookId, rsp.InvH.Id, common.InventoryHistoryStateNotOut)
+	r, err := o.Exec(insertSQL, userId, bookId, hisId, common.InventoryHistoryStateNotOut)
 
 	if err != nil {
 		log.Logf("新增订单失败, err:%s", err)
