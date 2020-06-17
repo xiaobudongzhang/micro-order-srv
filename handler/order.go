@@ -2,10 +2,12 @@ package handler
 
 import (
 	"context"
-
+	"fmt"
+	"github.com/micro/go-micro/v2/metadata"
 	"github.com/micro/go-micro/v2/util/log"
 	"github.com/xiaobudongzhang/micro-order-srv/model/orders"
 	proto "github.com/xiaobudongzhang/micro-order-srv/proto/order"
+	context2 "github.com/xiaobudongzhang/seata-golang/client/context"
 )
 
 var (
@@ -20,8 +22,17 @@ func Init() {
 }
 
 func (e *Orders) New(ctx context.Context, req *proto.Request, rsp *proto.Response) (err error) {
+	fmt.Printf("order srv ctx:%v", ctx)
+	rex, erx:= metadata.FromContext(ctx)
+	fmt.Printf("meta:%v-%v", rex, erx)
 
-	orderId, err := ordersService.New(req.BookId, req.UserId, req.OrderId)
+
+	rootContext := &context2.RootContext{Context:ctx}
+	rootContext.Bind(rex["Xid"])
+
+
+
+	orderId, err := ordersService.New(req.BookId, req.UserId, req.OrderId, rootContext)
 
 	if err != nil {
 		rsp.Success = false
