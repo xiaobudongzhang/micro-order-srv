@@ -28,9 +28,9 @@ func (s *service) New(bookId int64, userId int64, hisId int64, ctx2 *context.Roo
 	}
 	tx2, _ := db.Begin(ctx2)
 	//o := db.GetDB()
-	insertSQL := `insert orders (user_id, book_id,inv_his_id,state) values (?,?,?,?)`
+	insertSQL := `insert micro_book_mall.orders (user_id, book_id,inv_his_id,state) values (?,?,?,?)`
 
-	r, err := db.Exec(insertSQL, userId, bookId, hisId, common.InventoryHistoryStateNotOut)
+	r, err := tx2.Exec(insertSQL, userId, bookId, hisId, common.InventoryHistoryStateNotOut)
 
 	if err != nil {
 		log.Logf("新增订单失败, err:%s", err)

@@ -2,7 +2,6 @@ package handler
 
 import (
 	"context"
-	"fmt"
 	"github.com/micro/go-micro/v2/metadata"
 	"github.com/micro/go-micro/v2/util/log"
 	"github.com/xiaobudongzhang/micro-order-srv/model/orders"
@@ -22,10 +21,8 @@ func Init() {
 }
 
 func (e *Orders) New(ctx context.Context, req *proto.Request, rsp *proto.Response) (err error) {
-	fmt.Printf("order srv ctx:%v", ctx)
-	rex, erx:= metadata.FromContext(ctx)
-	fmt.Printf("meta:%v-%v", rex, erx)
 
+	rex,_:= metadata.FromContext(ctx)
 
 	rootContext := &context2.RootContext{Context:ctx}
 	rootContext.Bind(rex["Xid"])
